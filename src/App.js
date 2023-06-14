@@ -1,25 +1,21 @@
-import logo from './logo.svg';
-import './App.css';
-
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import React from 'react'
+import Navbar from './components/Navbar'
+import { auth } from './firebase'
+import { useAuthState } from 'react-firebase-hooks/auth'
+import { Chat } from './components/Chat'
+const style = {
+  appContainer: `max-w-[728px] mx-auto  text-center`,
+  sectionContainer: `flex flex-col  bg-gray-100 mt-10 shadow-xl border relative`
 }
 
-export default App;
+export default function App () {
+  const [user] = useAuthState(auth)
+  return (
+    <div className={style.appContainer}>
+      <div className={style.sectionContainer}>
+        <Navbar />
+        {user ? <Chat /> : null}
+      </div>
+    </div>
+  )
+}
